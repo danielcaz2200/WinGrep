@@ -10,10 +10,12 @@ class FileReader {
     private:
         // Data members
         std::string _file_name;
+        std::fstream _file;
     public:
         // Public member functions
         FileReader(const std::string& file_name);
-        std::string read_file() const;
+        ~FileReader();
+        std::string read_file();
 };
 
 #endif
