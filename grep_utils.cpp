@@ -10,6 +10,7 @@ void GrepUtils::print_correct_usage()
     std::cerr << "\t-i\t\t\tIgnore case to perform a case insensitive search.\n";
     std::cerr << "\t-o\t\t\tOnly print the matched string in the input file.\n";
     std::cerr << "\t-v\t\t\tPrints out all the lines that do not match the specified pattern.\n";
+    std::cerr << "\t-r\t\t\tRecurses through the filesystem looking for matches.\n";
 }
 
 // Logic to process a line in the supplied text

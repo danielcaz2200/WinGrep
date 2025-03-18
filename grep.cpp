@@ -39,13 +39,14 @@ bool Grep::directory_exists(const std::string &directory_name) const
 
 void Grep::search()
 {
-    if (!recursive_search)
+    if (!_recursive)
     {
         file_search();
     }
     else
-    {
-        recursive_search(_init_path);
+    {   
+        std::filesystem::path init_path = _file_or_dir;
+        recursive_search(init_path);
     }
 }
 
@@ -63,23 +64,16 @@ void Grep::file_search()
     {
         ++line_n;
 
-        bool match_found = std::regex_search(line, _compiled_pattern);
-        bool process = GrepUtils::process_line(_invert_match, match_found);
+        std::smatch match;
+        bool matches = std::regex_search(line, match, _compiled_pattern);
+        bool process = GrepUtils::process_line(_invert_match, matches);
 
-        if (!_only_matches)
-        {
-            if (std::regex_search(line.begin(), line.end(), _compiled_pattern))
+        if (process) {
+            if (!_only_matches)
             {
                 std::cout << std::format("{}: {}", line_n, line) << std::endl;
             }
-        }
-        else
-        {
-            // Used to retrieve only the matched string/group
-            std::smatch match;
-
-            // Find specific matched substrings from the current line
-            if (std::regex_search(line, match, _compiled_pattern))
+            else
             {
                 std::cout << std::format("{}: {}", line_n, match.str(0)) << std::endl;
             }
@@ -89,12 +83,17 @@ void Grep::file_search()
 
 void Grep::recursive_search(const std::filesystem::path& dir)
 {
-    for (const auto &entry : std::filesystem::recursive_directory_iterator(_init_path))
-    {
-        if (std::filesystem::is_directory(entry)) {
-            recursive_search(entry.path());
-        } else {
+    std::string current_path = "";
 
+    // recursive_directory_iterator handles recursing through files
+    for (const auto &entry : std::filesystem::recursive_directory_iterator(dir))
+    {
+        if (std::filesystem::is_regular_file(entry)) {
+            current_path = entry.path().string();
+
+            // Set current filename and perform search
+            _file_reader.set_file_or_dir(current_path);
+            file_search();
         }
     }
 }
@@ -104,12 +103,10 @@ Grep::Grep(const std::string &pattern,
            const std::unordered_set<std::string> &optional_args) : _pattern(pattern),
                                                                    _file_or_dir(file_or_dir),
                                                                    _optional_args(optional_args),
-                                                                   _file_reader(file_or_dir),
                                                                    _ignore_case(false),
                                                                    _only_matches(false),
                                                                    _invert_match(false),
-                                                                   _recursive(false),
-                                                                   _init_path()
+                                                                   _recursive(false)
 {
     // Include optional arguments
     if (_optional_args.find("-i") != _optional_args.end())
@@ -142,17 +139,16 @@ Grep::Grep(const std::string &pattern,
         {
             throw std::invalid_argument(std::format("File not found: {}", file_or_dir));
         }
+
+
+        // Set filename since not recursive search
+        _file_reader.set_file_or_dir(file_or_dir);
     }
     else
     {
         if (!directory_exists(file_or_dir))
         {
             throw std::invalid_argument(std::format("Directory not found: {}", file_or_dir));
-        }
-        else
-        {
-            // Set initial path to given directory (after testing it exists)
-            _init_path = _file_or_dir;
         }
     }
 }

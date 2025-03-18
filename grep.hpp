@@ -18,7 +18,6 @@ private:
 
     // File/directory data members
     FileReader _file_reader;
-    std::filesystem::path _init_path;
 
     // Default values for optional flags
     bool _ignore_case;

@@ -15,7 +15,7 @@ private:
 
 public:
     // Public member functions
-    FileReader(const std::string &file_or_dir);
+    FileReader();
     ~FileReader();
     std::string read_file();
 

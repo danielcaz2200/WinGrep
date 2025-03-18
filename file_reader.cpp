@@ -2,10 +2,11 @@
 #include <format>
 #include <sstream>
 
-FileReader::FileReader(const std::string &file_or_dir) : _file_or_dir(file_or_dir) {}
+FileReader::FileReader() : _file_or_dir("") {}
 
 FileReader::~FileReader()
 {
+    // Safety check before obj goes out of scope
     if (_file.is_open())
     {
         _file.close();
@@ -32,10 +33,13 @@ std::string FileReader::read_file()
     return buffer.str();
 }
 
-std::string FileReader::get_file_or_dir() const {
+// Getters, setters
+std::string FileReader::get_file_or_dir() const
+{
     return _file_or_dir;
 }
 
-void FileReader::set_file_or_dir(const std::string& file_or_dir) {
+void FileReader::set_file_or_dir(const std::string &file_or_dir)
+{
     _file_or_dir = file_or_dir;
 }
