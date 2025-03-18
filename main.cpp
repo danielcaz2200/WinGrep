@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
         if (argc > 3)
         {
-            for (std::size_t i = 3; i < argc; i++)
+            for (std::size_t i = 3; i < static_cast<std::size_t>(argc); i++)
             {
                 std::string current_argument = argv[i];
 

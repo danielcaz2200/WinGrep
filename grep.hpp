@@ -11,10 +11,10 @@ class Grep
 {
 private:
     // Grep class data members
-    std::unordered_set<std::string> _optional_args;
     std::string _pattern;
     std::string _file_or_dir;
     std::regex _compiled_pattern;
+    std::unordered_set<std::string> _optional_args;
 
     // File/directory data members
     FileReader _file_reader;
