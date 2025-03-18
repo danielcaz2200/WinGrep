@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\grep_plus_plus.dir/objects.a
+C:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\grep_plus_plus.dir/objects.a @CMakeFiles\grep_plus_plus.dir\objects1.rsp
+C:\msys64\ucrt64\bin\c++.exe  -Wall -fdiagnostics-color=always -g -Wl,--whole-archive CMakeFiles\grep_plus_plus.dir/objects.a -Wl,--no-whole-archive -o grep_plus_plus.exe -Wl,--out-implib,libgrep_plus_plus.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\grep_plus_plus.dir\linkLibs.rsp

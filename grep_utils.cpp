@@ -5,7 +5,7 @@
 // Print correct usage of the grep command
 void GrepUtils::print_correct_usage()
 {
-    std::cerr << "Usage: ./grep \"<string>\" <filename>\n";
+    std::cerr << "Usage: ./grep <regex pattern> <filename> -<options>\n";
     std::cerr << "Options...\n";
     std::cerr << "\t-i\t\t\tIgnore case to perform a case insensitive search.\n";
     std::cerr << "\t-o\t\t\tOnly print the matched string in the input file.\n";

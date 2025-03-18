@@ -89,6 +89,7 @@ void Grep::recursive_search(const std::filesystem::path& dir)
     for (const auto &entry : std::filesystem::recursive_directory_iterator(dir))
     {
         if (std::filesystem::is_regular_file(entry)) {
+            std::cout << entry << std::endl;
             current_path = entry.path().string();
 
             // Set current filename and perform search
